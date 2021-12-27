@@ -69,7 +69,7 @@ mconf = GPTConfig(train_dataset.vocab_size, train_dataset.block_size,
 model = GPT(mconf)
 
 
-tconf = TrainerConfig(max_epochs=1, batch_size=8, learning_rate=6e-4,
+tconf = TrainerConfig(max_epochs=100, batch_size=64, learning_rate=6e-4,
                       lr_decay=True, warmup_tokens=512*20, final_tokens=2*len(train_dataset)*block_size)
 trainer = Trainer(model, train_dataset, None, tconf)
 trainer.train()
@@ -79,24 +79,25 @@ context = "C"
 x = torch.tensor([train_dataset.stoi[s] for s in context], dtype=torch.long)[None,...].to(trainer.device)
 y = sample(model, x, 25, temperature=1.0, sample=True, top_k=10)[0]
 completion = ''.join([train_dataset.itos[int(i)] for i in y])
-print(completion)
-
 smiles = re.sub("<pad>","",completion)
-m = Chem.MolFromSmiles(smiles)
+print(smiles)
+# -------
+# Post-Training-Test
+# m = Chem.MolFromSmiles(smiles)
 
-def moltosvg(mol, molSize = (300,300), kekulize = True):
-    mc = Chem.Mol(mol.ToBinary())
-    if kekulize:
-        try:
-            Chem.Kekulize(mc)
-        except:
-            mc = Chem.Mol(mol.ToBinary())
-    if not mc.GetNumConformers():
-        rdDepictor.Compute2DCoords(mc)
-    drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
-    drawer.DrawMolecule(mc)
-    drawer.FinishDrawing()
-    svg = drawer.GetDrawingText()
-    return svg.replace('svg:','')
+# def moltosvg(mol, molSize = (300,300), kekulize = True):
+#     mc = Chem.Mol(mol.ToBinary())
+#     if kekulize:
+#         try:
+#             Chem.Kekulize(mc)
+#         except:
+#             mc = Chem.Mol(mol.ToBinary())
+#     if not mc.GetNumConformers():
+#         rdDepictor.Compute2DCoords(mc)
+#     drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
+#     drawer.DrawMolecule(mc)
+#     drawer.FinishDrawing()
+#     svg = drawer.GetDrawingText()
+#     return svg.replace('svg:','')
 
-moltosvg(m)
+# moltosvg(m)

@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+# Part of Scaffold Generative Pretraining Project
+# Author : Manas Mahale <manas.mahale@bcp.edu.in>
+
+
 from rdkit.Chem.Scaffolds import MurckoScaffold
 from tqdm import tqdm
 

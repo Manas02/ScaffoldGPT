@@ -1,2 +1,2 @@
-# ScaffoldGPT
-Scaffold Generative Pretraining
+# Scaffold Generative Pretraining
+

@@ -59,8 +59,8 @@ class CharDataset(Dataset):
 
 
 block_size = 64
-# text = [i.strip() for i in open('./data/train_scaffold.txt', 'r').readlines()]
-text = [i.strip() for i in open('./data/s_train.txt', 'r').readlines()]
+text = [i.strip() for i in open('./data/train_scaffold.txt', 'r').readlines()]
+
 train_dataset = CharDataset(text, block_size)
 
 
